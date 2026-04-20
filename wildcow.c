@@ -106,7 +106,7 @@ void draw_countdown(int n, int x, int y) {
 /* ════════════════════════════════════════════
    MODE PAR DÉFAUT : droite → gauche
    ════════════════════════════════════════════ */
-void mode_default() {
+void mode_default(char * pseudo) {
     hide_cursor();
     int y = TERM_HEIGHT / 2 - 2;
 
@@ -121,7 +121,7 @@ void mode_default() {
     /* La vache disparaît à gauche */
     clear_screen();
     goto_xy(1, TERM_HEIGHT / 2);
-    printf("La vache est rentrée chez elle. (ou elle s'est perdue ? On saura jamais)");
+    printf("%s est rentrée chez elle. (ou elle s'est perdue ? On saura jamais)", pseudo);
     fflush(stdout);
     sleep(1);
     show_cursor();
@@ -170,7 +170,7 @@ void mode_moonwalk() {
 /* ════════════════════════════════════════════
    MODE -boom : DÉCOMPTE + EXPLOSION
    ════════════════════════════════════════════ */
-void mode_boom() {
+void mode_boom(char * pseudo) {
     hide_cursor();
     int y = TERM_HEIGHT / 2 - 2;
     int x = TERM_WIDTH / 2 - 5;
@@ -195,7 +195,7 @@ void mode_boom() {
     goto_xy(TERM_WIDTH / 2 - 8, TERM_HEIGHT / 2);
     printf("\033[1;31m  *** MOO IN PEACE ***  \033[0m");
     goto_xy(TERM_WIDTH / 2 - 8, TERM_HEIGHT / 2 + 1);
-    printf("        (->ADMIN : the cow has left the chat)");
+    printf("        (->ADMIN : %s has left the chat)", pseudo);
     fflush(stdout);
     sleep(2);
     show_cursor();
@@ -205,7 +205,7 @@ void mode_boom() {
    MODE -go_crazy : VA-ET-VIENT ALÉATOIRE
    Finit avec les yeux en xx (morte de vertige)
    ════════════════════════════════════════════ */
-void mode_go_crazy() {
+void mode_go_crazy(char * pseudo) {
     srand((unsigned)time(NULL));
     hide_cursor();
     int y    = TERM_HEIGHT / 2 - 2;
@@ -253,7 +253,7 @@ void mode_go_crazy() {
     goto_xy(final_x - 2, y - 2);
     printf("\033[1;36m  x_x  ~  trop de vertige...  ~  x_x \033[0m");
     goto_xy(final_x, y + 5);
-    printf("\033[0;37m  *tourne en rond*  \033[0m");
+    printf("\033[0;37m  *%s tourne en rond*  \033[0m", pseudo);
     fflush(stdout);
     sleep(2);
     show_cursor();
@@ -261,14 +261,22 @@ void mode_go_crazy() {
 
 /* ─── main ─── */
 int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        mode_default();
+    char * pseudo = "Cow";
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-pseudo") == 0 || strcmp(argv[i], "-p") == 0) {
+            if (i + 1 < argc) {
+                pseudo = argv[i + 1];
+            }
+        }
+    }
+    if (argc == 0 || argc == 2 && strcmp(pseudo, "Cow") != 0 ) {
+        mode_default(pseudo);
     } else if (strcmp(argv[1], "-hee_hee") == 0) {
         mode_moonwalk();
     } else if (strcmp(argv[1], "-boom") == 0) {
-        mode_boom();
+        mode_boom(pseudo);
     } else if (strcmp(argv[1], "-go_crazy") == 0) {
-        mode_go_crazy();
+        mode_go_crazy(pseudo);
     } else {
         fprintf(stderr, "Usage: wildcow [-hee_hee | -boom | -go_crazy]\n");
         fprintf(stderr, "  (sans option) : marche de droite à gauche\n");
