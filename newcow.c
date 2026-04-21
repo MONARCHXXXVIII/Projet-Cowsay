@@ -63,14 +63,12 @@ void affiche_vache(const char *eyes, const char *tongue, int tail_ext, int think
     char arrow2 = think ? 'o' : '\\';
 
     /* Queue de base + extension */
-    printf("        %c  ^__%c \n", arrow1, '^');
-    printf("         %c (%c%c)\\_______\n", arrow2, e[0], e[1]);
-    printf("           (__)\\       )\\/\\\n");
-
-    /* Queue avec extension */
-    printf("          ");
-    for (int i = 0; i < tail_ext; i++) printf(" ");
-    printf("%c%c   ||----w |\n", t[0], t[1]);
+    printf("        %c  ^__%c \n", arrow1, '^');    printf("         %c (%c%c)\\_______\n", arrow2, e[0], e[1]);
+    printf("           (__)\\       )"); 
+    printf("\\/\\");
+    for (int i = 0; i < tail_ext; i++) printf("/\\");
+    printf("\n          ");
+    printf("  %c%c ||----w |\n", t[0], t[1]);
 
     printf("               ||     ||\n");
 }
