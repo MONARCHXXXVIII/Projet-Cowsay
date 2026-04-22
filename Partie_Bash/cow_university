@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# cow_university
+# La vache prononce la suite des nombres premiers inférieur à n
+# n est un argument du script
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <number>"
+    exit 1
+fi
+
+n=$1
+
+# Vérifier que l'argument est un nombre positif
+if ! [[ "$n" =~ ^[0-9]+$ ]] || [ "$n" -lt 2 ]; then
+    echo "Erreur: Veuillez fournir un nombre >= 2"
+    exit 1
+fi
+
+# Fonction pour vérifier si un nombre est premier
+is_prime() {
+    local num=$1
+    if [ "$num" -lt 2 ]; then
+        return 1
+    fi
+    if [ "$num" -eq 2 ]; then
+        return 0
+    fi
+    if [ $((num % 2)) -eq 0 ]; then
+        return 1
+    fi
+    
+    local i
+    for ((i = 3; i * i <= num; i += 2)); do
+        if [ $((num % i)) -eq 0 ]; then
+            return 1
+        fi
+    done
+    return 0
+}
+
+# Parcourir tous les nombres et afficher ceux qui sont premiers
+for ((i = 2; i < n; i++)); do
+    if is_prime "$i"; then
+        clear
+        cowsay "$i"
+        sleep 1
+    fi
+done

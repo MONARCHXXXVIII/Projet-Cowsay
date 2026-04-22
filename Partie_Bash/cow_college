@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# cow_college
+# La vache prononce la suite des nombres de Fibonacci inférieur à n
+# n est un argument du script
+# La suite de Fibonacci: 0, 1, 1, 2, 3, 5, 8, 13, 21, ...
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <number>"
+    exit 1
+fi
+
+n=$1
+
+# Vérifier que l'argument est un nombre positif
+if ! [[ "$n" =~ ^[0-9]+$ ]] || [ "$n" -lt 1 ]; then
+    echo "Erreur: Veuillez fournir un nombre positif"
+    exit 1
+fi
+
+a=0
+b=1
+
+# Afficher le premier nombre de Fibonacci si inférieur à n
+if [ "$a" -lt "$n" ]; then
+    clear
+    cowsay "$a"
+    sleep 1
+fi
+
+# Générer la suite de Fibonacci
+while [ "$b" -lt "$n" ]; do
+    clear
+    cowsay "$b"
+    sleep 1
+    
+    # Calcul du prochain nombre de Fibonacci
+    temp=$((a + b))
+    a=$b
+    b=$temp
+done

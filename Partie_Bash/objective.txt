@@ -1,0 +1,77 @@
+
+Projet Cowsay
+1 Pr´esentation du Projet
+1.1 Objectif du projet
+couiller@laptop-450:~$ cowsay "Bonjour"
+_________
+< Bonjour >
+---------
+\ ^__^
+\ (oo)\_______
+(__)\ )\/\
+||----w |
+|| ||
+L’objectif du projet est de d´ecouvrir le monde merveilleux de “cowsay”. Au cours du projet,
+vous r´ealiserez les objectifs suivants:
+1. Pr´eliminaires. D´ecouvrir la commande cowsay `a travers son manuel (manpage) et l’ensemble
+des options qu’elle contient.
+2. Bash. Impl´ementer un script Bash qui fait r´eciter `a la vache la suite des nombres premiers,
+des nombres de Fibonacci, ou toute autre suite exotique de votre choix.
+1.2 Rapport attendu
+Le compte-rendu du projet doit ˆetre r´edig´e sous un format texte (texte simple, Markdown, Org)
+ou en LaTeX. Il doit comporter `a la fois les codes mais ´egalement et surtout des commentaires et
+interpr´etations clairs et pertinents concernant (i) vos choix (justifi´es, en expliquant par exemple
+si d’autres tentatives pr´ec´edentes ont ´echou´e et pourquoi) ainsi que (ii) vos r´esultats, en rapport
+avec les notions vues en cours. Les id´ees et les impl´ementations les plus originales et avanc´ees
+seront fortement valoris´ees.
+Pr´ecis´ement, le compte-rendu doit contenir a minima:
+ les codes sources des exercices demand´es.
+ les diff´erentes sorties d’ex´ecutions de ces codes (ou des programmes compil´es) pour plusieurs
+tests d’arguments pertinemment choisis.
+ un maximum de commentaires `a la fois dans le code (afin de le rendre lisible) ainsi que
+dans le compte-rendu lui-mˆeme pour justifier vos choix, vos id´ees, et mˆeme mentionner vos
+difficult´es, ´ecueils et strat´egies d’adaptation quand cela a ´et´e n´ecessaire.
+2 Pr´eliminaires
+Dans cette premi`ere section, il vous est demand´e de d´ecouvrir l’ex´ecutable
+1 cowsay
+Pour cela, lisez consciencieusement le manuel de cowsay `a travers la commande
+1 man cowsay
+A l’aide du manuel, explorez les diff´erentes options disponibles dans cowsay. Dans votre rap- `
+port, vous reporterez l’ensemble des arguments dans une liste ou un tableau en explicitant leur
+usage et en donnant quelques exemples d’ex´ecutions.
+3 Bash
+Dans cette section, l’objectif est de proposer un script shell (bash) consistant `a faire dynamiquement lister par la vache les it´er´es d’une suite de nombres. Pour cela, vous pourrez notamment
+utiliser la fonction
+1 clear
+qui rafraichit l’´ecran ainsi que la fonction
+1 sleep
+qui prend en argument une dur´ee t et cr´ee une pause de longueur t secondes (voir le manpage de
+sleep).
+Vous produirez successivement les scripts suivants:
+ un script cow kindergarten dans lequel la vache prononce les chiffres de 1 `a 10 avec une
+pause d’une seconde entre chaque chiffre. La vache tirera la langue `a la fin de l’exercice.
+ un script similaire, cow primaryschool, mais cette fois-ci la vache prononce les chiffres de
+1 `a n avec n un nombre donn´e en argument du script.
+ toujours dans cette vague, un script cow highschool o`u cette fois-ci la vache est plus forte
+et prononce la suite des carr´es 1, 4, 9, . . . , n
+2 avec n l’argument du script.
+ afin de complexifier l´eg`erement la tˆache, la vache prononcera maintenant dans cow college
+la suite des nombres de Finonacci inf´erieur `a n. Pour cela vous chercherez sur Internet la
+d´efinition de cette suite.
+ mˆeme question avec le script cow university maintenant pour la suite des nombres premiers
+inf´erieurs `a n.
+ dans un script smart cow, vous r´ealiserez ensuite une vache qui r´esout un calcul num´erique
+simple (addition, soustraction, multiplication, division) d’au plus deux chiffres. Le script
+prendra pour argument une chaˆıne de caract`ere (par exemple “3+11“) et retournera une
+vache qui prononce le calcul et dont les yeux se transforment en le r´esultat du calcul.
+ enfin, laissez libre court `a votre imagination pour cr´eer un script crazy cow qui impl´emente
+une “vache arithm´etique” qui fait quelque chose de particuli`erement fou (ou compliqu´e).
+couiller@laptop-450:~$ smart_cow ’3 + 11’
+________
+< 3 + 11 >
+--------
+\ ^__^
+\ (14)\_______
+(__)\ )\/\
+||----w |
+|| ||

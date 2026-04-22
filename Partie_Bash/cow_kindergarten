@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# cow_kindergarten
+# La vache prononce les chiffres de 1 à 10 avec une pause d'une seconde entre chaque chiffre
+# La vache tire la langue à la fin de l'exercice
+
+for i in {1..10}; do
+    clear
+    cowsay "$i"
+    sleep 1
+done
+
+# Vache tirant la langue à la fin
+clear
+cowsay -f dragon "The end! Bleh :P"

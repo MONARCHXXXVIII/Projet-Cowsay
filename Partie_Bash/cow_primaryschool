@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# cow_primaryschool
+# La vache prononce les chiffres de 1 à n
+# n est un argument du script
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <number>"
+    exit 1
+fi
+
+n=$1
+
+# Vérifier que l'argument est un nombre positif
+if ! [[ "$n" =~ ^[0-9]+$ ]] || [ "$n" -lt 1 ]; then
+    echo "Erreur: Veuillez fournir un nombre positif"
+    exit 1
+fi
+
+for i in $(seq 1 "$n"); do
+    clear
+    cowsay "$i"
+    sleep 1
+done

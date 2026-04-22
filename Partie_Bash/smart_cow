@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# smart_cow
+# La vache résout un calcul numérique simple (addition, soustraction, multiplication, division)
+# d'au plus deux chiffres
+# Le script prend pour argument une chaîne de caractère (par exemple "3+11")
+# La vache prononce le calcul et dont les yeux se transforment en le résultat du calcul
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 '<expression>'"
+    echo "Exemples: $0 '3+11' $0 '15-7' $0 '4*5' $0 '20/4'"
+    exit 1
+fi
+
+expression=$1
+
+# Valider que l'expression contient un opérateur
+if ! [[ "$expression" =~ ^[0-9]+[+\-*/][0-9]+$ ]]; then
+    echo "Erreur: Expression invalide. Utilisez le format 'nombre opérateur nombre'"
+    exit 1
+fi
+
+# Calculer le résultat
+result=$(( $expression ))
+
+# Afficher l'expression et le résultat avec le résultat dans les yeux de la vache
+# Remplacer les 'o' par le résultat (ou ses deux premiers caractères s'il est trop long)
+eyes=$(printf "%.2s" "$result")
+
+echo "________"
+echo "< $expression >"
+echo "--------"
+echo "\\ ^__^"
+echo "\\ ($eyes)\\_______"
+echo "(__)\\\ )\\/\\"
+echo "||----w |"
+echo "|| ||"

@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# crazy_cow
+# Une "vache arithmétique" qui fait quelque chose de particulièrement fou (ou compliqué)
+# Cette vache génère un quiz mathématique interactif avec des questions aléatoires
+# La vache affiche une question, l'utilisateur répond, et la vache réagit
+
+generate_question() {
+    local num1=$((RANDOM % 100 + 1))
+    local num2=$((RANDOM % 100 + 1))
+    local op=$((RANDOM % 4))
+    
+    case $op in
+        0)
+            echo "$num1 + $num2"
+            echo "$((num1 + num2))"
+            ;;
+        1)
+            echo "$num1 - $num2"
+            echo "$((num1 - num2))"
+            ;;
+        2)
+            echo "$num1 * $num2"
+            echo "$((num1 * num2))"
+            ;;
+        3)
+            if [ "$num2" -eq 0 ]; then
+                num2=$((RANDOM % 100 + 1))
+            fi
+            echo "$num1 / $num2"
+            echo "$((num1 / num2))"
+            ;;
+    esac
+}
+
+score=0
+total=0
+
+echo ""
+cowsay "Bienvenue dans le quiz fou de la vache arithmétique!"
+sleep 2
+
+for ((i = 1; i <= 5; i++)); do
+    clear
+    read -r question answer < <(generate_question)
+    total=$((total + 1))
+    
+    echo ""
+    cowsay "Question $i: $question = ?"
+    echo ""
+    read -p "Ta réponse: " user_answer
+    
+    if [ "$user_answer" = "$answer" ]; then
+        score=$((score + 1))
+        clear
+        cowsay "Correct! La réponse est $answer 🎉"
+        sleep 1
+    else
+        clear
+        cowsay "Faux! La bonne réponse est $answer 😢"
+        sleep 1
+    fi
+done
+
+clear
+echo ""
+cowsay "Score final: $score / $total"
+echo ""
+if [ "$score" -eq 5 ]; then
+    cowsay -f dragon "Tu es un génie mathématique! 🚀"
+elif [ "$score" -ge 3 ]; then
+    cowsay "Pas mal! Tu progresses 📈"
+else
+    cowsay "À revoir! Allez, on recommence 💪"
+fi
