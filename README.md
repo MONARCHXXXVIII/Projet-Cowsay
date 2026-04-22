@@ -1,7 +1,5 @@
 # Projet Cowsay
 
-**INF203 · UGA 2021-2022**
-
 Ce README documente l'intégralité du projet Cowsay. Le projet est divisé en deux parties complémentaires :
 - **Partie Bash** : Scripts shell utilisant la commande `cowsay` pour afficher des suites mathématiques
 - **Partie C** : Réimplémentation et extensions de `cowsay` en C pur avec animations et fonctionnalités avancées
