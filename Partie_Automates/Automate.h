@@ -6,4 +6,4 @@ typedef struct{
     unsigned int fitness;
 } Automate;
 
-int transition(Automate a, int lunchfood);
+void transition(Automate * a, int lunchfood);
