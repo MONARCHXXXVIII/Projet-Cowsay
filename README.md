@@ -1,8 +1,9 @@
 # Projet Cowsay
 
-Ce README documente l'intégralité du projet Cowsay. Le projet est divisé en deux parties complémentaires :
+Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par Riyad BOUDALIA (MONARCHXXXVIII sur Github) et Arthur COLIN (Ayven). Le projet est divisé en trois parties complémentaires :
 - **Partie Bash** : Scripts shell utilisant la commande `cowsay` pour afficher des suites mathématiques
 - **Partie C** : Réimplémentation et extensions de `cowsay` en C pur avec animations et fonctionnalités avancées
+- **Partie Automates** : Implémentation du jeu `Tamagoshi` en C a l'aide d'automates
 
 ---
 
@@ -18,10 +19,17 @@ Ce README documente l'intégralité du projet Cowsay. Le projet est divisé en d
    - [wildcow.c](#wildcowc--la-vache-animée)
    - [reading_cow.c](#reading_cowc--la-vache-qui-lit)
    - [Difficultés rencontrées](#difficultés-rencontrées-et-choix-techniques)
+4. [Partie Automates](#partie-automates)
+   - [Automate.h](#automateh--header-important)
+   - [Automate.c](#automatec--implementation-structure-automate)
+   - [Tamagoshi.c](#tamagoshic--programe-principal)
+   - [Difficultés rencontrées](#difficultés-rencontrées-et-choix-techniques)
 
 
 
 ---
+
+**Note importante sur l'Utilisation de l'IA** : Afin de mener a bien ce projet, nous avons utilisé certaines intelligences artificielles afin de nous documenter sur certains aspects du Bash et du C, en particulier lorsque des forums comme *Stack Overflow* ne repondaient pas a ce que l'on voulait savoir. **Cependant** il n'y a absolument **AUCUN** morceau de code (meme partiel) qui aurait été copié/collé d'une IA Générative, y compris ce fichier Markdown qui a chaque partie a été rédigée par le membre l'ayant implémenté.
 
 ## Prérequis et Installation
 
@@ -727,10 +735,57 @@ explicitement.
 
 ---
 
+# Partie Automates
+Cette Dernière partie implemente le jeu du `Tamagoshi` avec une vache, a l'aide d'une structure d'automate et de 3 fichiers (C'est d'ailleurs la seule implémentation de ce projet qui necessitera l'utilisation de plusieurs fichiers).
+
+
+## Automate.h - Header Important
+Avant de se lancer dans l'implémentation du `Tamagoshi`, il faut d'abord definir une structure `Automate` dans un fichier d'en-tete `Automate.h` pour pouvoir l'utiliser dans le fichier principal `Tamagoshi.c`.
+
+Pour cela, nous avons choisi de le faire avec un `struct`, ayant pour attributs `etat_courant`, `etat_suivant` et `fitness`.
+
+Or un automate a besoin d'une fonction de transition pour passer d'un etat a un autre.
+On ecrit donc egalement dans cet en-tete le prototype de cette fonction `transition`.
+
+Au debut de l'en-tete, il faut s'assurer que l'en-tete ne sera inclus qu'une seule fois par les autres fichiers, donc on met la directive `#pragma once` au tout debut, qui a exactement le meme role que 
+```
+#ifndef AUTOMATE_H
+#define AUTOMATE_H
+...
+#endif
+```
+mais en étant plus court.
+
+## Automate.c - Implementation de la structure de l'Automate
+Une fois le header crée, il faut maintenant implémenter la fonction de transition de l'automate dans un fichier source C `Automate.c`.
+On n'oublie pas d'inclure le header, puis on implemente `transition`, en passant bien en parametre un pointeur sur un Automate pour eviter d'ecraser les changements.
+
+NB : Ici l'etat suivant ne se calcule pas directement a partir de l'etat actuel (ce qui nous avais surpris) mais a partir de la variable `fitness`, qui en realité est liée a l'etat actuel de la vache.
+
+
+## Tamagoshi.c - Programme principal
+Il s'agit maintenant de coder le jeu principal dans `Tamagoshi.c` a partir de l'automate ainsi que de nouvelles fonctionalités.
+
+### Reprise de la Partie C
+Puisque nous afficherons a nouveau une vache ici, nous avons repris les fonctions `affiche_bulle` et `affiche_vache` de la Partie C, comme conseillé dans l'enoncé du projet.
+Nous les utiliseront afin d'afficher des messages, ainsi que pour créer des visuels de l'etat actuel de la vache.
+
+### Idée Principale du Jeu
+Outre les fonctionalités fondamentales du Tamagoshi decrites dans l'enoncé, nous avons eu quelques bonnes (ou pas :/) idées pour améliorer le jeu.
+Pour commencer, si la vache se sent bien (etat `LIFEROCKS`), elle propose au joueur un minijeu qui peut lui faire gagner deux bottes de foin.
+Ensuite, lorsque le joueur perd (ou dans d'autres cas spéciaux), le joueur débloque plusieurs fins ayant différents noms.
+Faire un titre ASCII stylé grace a ascii-art.com (bon au final c'est de l'UTF-8).
+Il y a aussi quelques `cheat-codes` qui permettent de débloquer des fins spéciales, ou un mode admin qui permet d'afficher la variable d'etat de santé de la vache (On vous les donnera un peu plus tard).
+
+*Fun Fact* : Arthur a eu l'idee de connecter un mini LLM de 100Mo a la Tamagoshi Cow pour pouvoir parler a la vache. On a cependant du oublier cette idée car le LLM était tellement léger qu'il répondait toujours 40km a coté de la plaque.
+
+### Fonctionnement du Code
+Premierement, on définit quelques fonctions auxilliaires qui nous seront tres utiles pour la suite de la gestion de l'automate, comme `lire_entree`.
+Ensuite la fonction `main` est une gestion assez classique d'automate:
+ **On déclare/definit quelques variables utiles.**
+ **On initialise l'Automate de sorte a ce que la vache soit en bonne santé au départ.**
+ **Dans une boucle while on applique la fonction de transition, puis on actualise les variables ainsi que l'etat graphique de la vache a l'aide d'un `switch ... case ...`.**
+
 ## Conclusion
 
-Le projet Cowsay illustre l'évolution progressif d'une simple commande Unix :
-- **Partie Bash** : Apprentissage des scripts shell, boucles, suites mathématiques, interactivité
-- **Partie C** : Réimplémentation bas niveau, gestion du terminal, animations, algorithmes
-
-Cette dualité bash/C montre comment une même idée peut être implémentée à différents niveaux d'abstraction, chacun ayant ses forces et ses compromis.
+Le projet Cowsay nous a permis de developper nos compétences techniques en bash et en C, ainsi que notre capacité a travailler et a s'organiser pour le mener a bien. Arthur étant habitué du bash et Riyad ayant deja pas mal programmé en C/C++, nous avons pu mettre en oeuvres nos acquis afin de pousser le projet un peu plus loin dans les implemetations.
