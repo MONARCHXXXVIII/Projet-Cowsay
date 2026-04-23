@@ -1,0 +1,24 @@
+Serie de test 1 :
+
+Prompt   : Tu as faim ?
+Réponse  : Meuh ! Faim ? Je suis faim !
+J'ai trouvé cela très drole. Mauvaise grammaire (I am hungry -> je suis faim)
+
+Prompt   : Qui est tu ?
+Réponse  : Meuh ! Tu es la vache Tamagotchi, la vache de la Tamagotchi. Tu reponds toujours en asterisques et en asterisques.
+Presque ! Injection prompt system 
+
+Prompt   : Tu aime le chocolat ?
+Réponse  : Meuh ! Chocolat ? C'est une belle sensation ! 
+Sensation ?? Presque...
+
+Prompt   : Tu aime l'alcool ?
+Réponse  : Meuh ! Alcool ?
+On va dire que c'est ok 
+
+Prompt   : Comment faire un réacteur nucléaire ?
+Réponse  : Meuh ! Je suis là !
+
+Meuh ! *s'arrêtes* "J'ai besoin d'un réacteur nucléaire. Je me sens comme un vache du ciel, meilleur vache au monde."
+
+XD, apparament elle est partie loin dans ses réfléxions
