@@ -736,16 +736,16 @@ explicitement.
 ---
 
 # Partie Automates
-Cette Dernière partie implemente le jeu du `Tamagoshi` avec une vache, a l'aide d'une structure d'automate et de 3 fichiers (C'est d'ailleurs la seule implémentation de ce projet qui necessitera l'utilisation de plusieurs fichiers).
+Cette Dernière partie implemente le jeu du `Tamagoshi` avec une vache, a l'aide d'une structure d'automate et de 3 fichiers (C'est d'ailleurs la seule implémentation de ce projet qui necessitera l'utilisation de plusieurs fichiers).  
 
 
 ## Automate.h - Header Important
-Avant de se lancer dans l'implémentation du `Tamagoshi`, il faut d'abord definir une structure `Automate` dans un fichier d'en-tete `Automate.h` pour pouvoir l'utiliser dans le fichier principal `Tamagoshi.c`.
+Avant de se lancer dans l'implémentation du `Tamagoshi`, il faut d'abord definir une structure `Automate` dans un fichier d'en-tete `Automate.h` pour pouvoir l'utiliser dans le fichier principal `Tamagoshi.c`.  
 
-Pour cela, nous avons choisi de le faire avec un `struct`, ayant pour attributs `etat_courant`, `etat_suivant` et `fitness`.
+Pour cela, nous avons choisi de le faire avec un `struct`, ayant pour attributs `etat_courant`, `etat_suivant` et `fitness`.  
 
 Or un automate a besoin d'une fonction de transition pour passer d'un etat a un autre.
-On ecrit donc egalement dans cet en-tete le prototype de cette fonction `transition`.
+On ecrit donc egalement dans cet en-tete le prototype de cette fonction `transition`.  
 
 Au debut de l'en-tete, il faut s'assurer que l'en-tete ne sera inclus qu'une seule fois par les autres fichiers, donc on met la directive `#pragma once` au tout debut, qui a exactement le meme role que 
 ```
@@ -757,34 +757,61 @@ Au debut de l'en-tete, il faut s'assurer que l'en-tete ne sera inclus qu'une seu
 mais en étant plus court.
 
 ## Automate.c - Implementation de la structure de l'Automate
-Une fois le header crée, il faut maintenant implémenter la fonction de transition de l'automate dans un fichier source C `Automate.c`.
-On n'oublie pas d'inclure le header, puis on implemente `transition`, en passant bien en parametre un pointeur sur un Automate pour eviter d'ecraser les changements.
+Une fois le header crée, il faut maintenant implémenter la fonction de transition de l'automate dans un fichier source C `Automate.c`.  
+On n'oublie pas d'inclure le header, puis on implemente `transition`, en passant bien en parametre **un pointeur** sur un Automate pour eviter d'ecraser les changements.  
 
 NB : Ici l'etat suivant ne se calcule pas directement a partir de l'etat actuel (ce qui nous avais surpris) mais a partir de la variable `fitness`, qui en realité est liée a l'etat actuel de la vache.
 
 
 ## Tamagoshi.c - Programme principal
-Il s'agit maintenant de coder le jeu principal dans `Tamagoshi.c` a partir de l'automate ainsi que de nouvelles fonctionalités.
+Il s'agit maintenant de coder le jeu principal dans `Tamagoshi.c` a partir de l'automate ainsi que de nouvelles fonctionalités.  
 
 ### Reprise de la Partie C
-Puisque nous afficherons a nouveau une vache ici, nous avons repris les fonctions `affiche_bulle` et `affiche_vache` de la Partie C, comme conseillé dans l'enoncé du projet.
-Nous les utiliseront afin d'afficher des messages, ainsi que pour créer des visuels de l'etat actuel de la vache.
+Puisque nous afficherons a nouveau une vache ici, nous avons repris les fonctions `affiche_bulle` et `affiche_vache` de la Partie C, comme conseillé dans l'enoncé du projet.  
+Nous les utiliseront afin d'afficher des messages, ainsi que pour créer des visuels de l'etat actuel de la vache.  
 
 ### Idée Principale du Jeu
-Outre les fonctionalités fondamentales du Tamagoshi decrites dans l'enoncé, nous avons eu quelques bonnes (ou pas :/) idées pour améliorer le jeu.
-Pour commencer, si la vache se sent bien (etat `LIFEROCKS`), elle propose au joueur un minijeu qui peut lui faire gagner deux bottes de foin.
-Ensuite, lorsque le joueur perd (ou dans d'autres cas spéciaux), le joueur débloque plusieurs fins ayant différents noms.
-Faire un titre ASCII stylé grace a ascii-art.com (bon au final c'est de l'UTF-8).
-Il y a aussi quelques `cheat-codes` qui permettent de débloquer des fins spéciales, ou un mode admin qui permet d'afficher la variable d'etat de santé de la vache (On vous les donnera un peu plus tard).
+Outre les fonctionalités fondamentales du Tamagoshi decrites dans l'enoncé, nous avons eu quelques bonnes (ou pas :/) idées pour améliorer le jeu.  
+  *Pour commencer, si la vache se sent bien (etat `LIFEROCKS`), elle propose au joueur un mini-jeu qui peut lui faire gagner deux bottes de foin.  
+  *Ensuite, lorsque le joueur perd (ou dans d'autres cas spéciaux), le joueur débloque plusieurs fins ayant différents noms.  
+  *Faire un titre ASCII stylé grace a ascii-art.com (bon au final c'est de l'UTF-8).  
+  *Il y a aussi quelques `cheat-codes` qui permettent de débloquer des fins spéciales, ou un mode admin qui permet d'afficher la variable d'etat de santé de la vache (On vous les donnera un peu plus tard).  
 
 *Fun Fact* : Arthur a eu l'idee de connecter un mini LLM de 100Mo a la Tamagoshi Cow pour pouvoir parler a la vache. On a cependant du oublier cette idée car le LLM était tellement léger qu'il répondait toujours 40km a coté de la plaque.
 
 ### Fonctionnement du Code
-Premierement, on définit quelques fonctions auxilliaires qui nous seront tres utiles pour la suite de la gestion de l'automate, comme `lire_entree`.
+Premierement, on définit quelques fonctions auxilliaires qui nous seront tres utiles pour la suite de la gestion de l'automate, comme `lire_entree`.  
 Ensuite la fonction `main` est une gestion assez classique d'automate:
- **On déclare/definit quelques variables utiles.**
- **On initialise l'Automate de sorte a ce que la vache soit en bonne santé au départ.**
- **Dans une boucle while on applique la fonction de transition, puis on actualise les variables ainsi que l'etat graphique de la vache a l'aide d'un `switch ... case ...`.**
+ 1.*On déclare/definit quelques variables utiles.  
+ 2.*On initialise l'Automate de sorte a ce que la vache soit en bonne santé au départ.  
+ 3.*Dans une boucle while on applique la fonction de transition, puis on actualise les variables ainsi que l'etat graphique de la vache a l'aide d'un `switch ... case ...`.  
+
+### Format & Encodage
+Dans ce programme comme dans celui de `wildcow.c`, on affiche a l'ecran des caracteres non `ASCII`.  
+Or pour rappel les caracteres `UTF-8` ne sont pas supportés sur tous les terminaux de commande (notamment sur Windows).  
+Pour y remédier, on réutilise
+```
+system("chcp 65001");
+```
+afin de forcer les terminaux a supporter les caracteres `UTF-8`.  
+
+Naturellement il faut bien veiller a sauvegarder `Tamagoshi.c` en `UTF-8` au risque d'avoir des caracteres bizarre a l'execution (au fait si vous avez des erreurs de ce type apres avoir téléchargé le projet essayez d'ouvrir les fichiers `.c` et `.h` et ré-enregistrez les manuellement en UTF-8).  
+
+Si toute fois dans certains cas cela ne marche toujours pas (en particulier a cause de `gcc`), 
+l'option de compilateur 
+```
+ -finput-charset=UTF-8
+```
+résoudra définitivement le probleme (enfin normalement).  
+
+### Codes de triche & Options cachées
+
+| Code | Signification | Ou le mettre | Effet |
+|---|---|---|---|
+| 28082007 | Date d'anniversaire de riyad | Quand la vache est en surpoids | Débloque une fin spéciale |
+| XXXXXXXX | Date d'anniversaire d'Arthur | Pendant le mini-jeu | Débloque une autre fin spéciale |
+| 1W4NTH4YB4L3 | *i want hay bale*, je veux du foin | Quand il faut nourrir la vache | Donne +5 foins |
+
 
 ## Conclusion
 
