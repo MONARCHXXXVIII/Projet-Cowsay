@@ -1,6 +1,6 @@
 # Projet Cowsay
 
-Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par Riyad BOUDALIA (MONARCHXXXVIII sur Github) et Arthur COLIN (Ayven). Le projet est divisé en trois parties complémentaires :
+Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par Riyad BOUDALIA (MONARCHXXXVIII sur Github) et Arthur COLIN (Ayvem). Le projet est divisé en trois parties complémentaires :
 - **Partie Bash** : Scripts shell utilisant la commande `cowsay` pour afficher des suites mathématiques
 - **Partie C** : Réimplémentation et extensions de `cowsay` en C pur avec animations et fonctionnalités avancées
 - **Partie Automates** : Implémentation du jeu `Tamagoshi` en C a l'aide d'automates
