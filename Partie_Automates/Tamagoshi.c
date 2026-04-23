@@ -3,6 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 int lire_entree(const char* message){
     int entree;
@@ -10,6 +11,15 @@ int lire_entree(const char* message){
     scanf("%d", &entree);
     return entree;
 }
+
+char* lire_chaine(const char* message){
+    static char entree[100];  //sans static ici, la fonction provoque apparement toujours un BufferOverflow
+    printf("%s", message);
+    scanf("%99s", entree);
+    return entree;
+}
+
+
 
 void affiche_bulle(const char *texte, int wrap, int think __attribute__((unused))) {
     int len = strlen(texte);
@@ -97,6 +107,7 @@ int main(int argc, char * argv[]){
     int stock = 10;
     int crop;
     int jouer_minjeu = 0;
+    int tour = 0;
 
     int qtt_nourriture = 0;
 
@@ -113,12 +124,23 @@ int main(int argc, char * argv[]){
            "          █    █   █ █  █  █\n"
            "          ████ █████  ██ ██ \n\n\n\n\n\n\n\n\n\n\n");
 
+    sleep(1);
+    printf("\n[MAITRE DU JEU] : Je suis le maitre du tamagoshi, et je vous guiderai tout au long du jeu\n[MAITRE DU JEU] :  Qui suis-je ? Des fois Arthur, des fois Riyad, les deux a la fois, ou aucun des deux ça dépend.\n [MAITRE DU JEU] : Votre but sera de vous occuper de la vache pour la faire vivre le plus longtemps possible.\n");
+    sleep(1);
+    printf("[MAITRE DU JEU] : Au fait ca va etre pénible de toujours l'appeler 'vache', pourriez vous lui donner un nom ?\n");
+    sleep(1);
+    const char* nom_vache = lire_chaine("Quel nom donnerez vous a votre vache ? ");
+
+
     while(1){
         if(stock < 0){
             stock = 0;
         }
+        tour+=1;
+        printf("Tour %d\n", tour);
         printf("Stock actuel de foin : %d\n", stock);
-        qtt_nourriture = lire_entree("[MAITRE DU JEU] : Il est temps de nourrir votre vache. Combien de nourriture voulez-vous lui donner ?  \n");
+        printf("[MAITRE DU JEU] : Il faut nourrir %s", nom_vache);
+        qtt_nourriture = lire_entree(". Combien de nourriture lui donnez vous ?  \n");
         while(qtt_nourriture > stock){
             qtt_nourriture = lire_entree("[MAITRE DU JEU] :  Vous n'avez pas assez de foin en stock, entrez autre chose, ou 0 si vous n'avez rien\n");
         }
@@ -129,12 +151,12 @@ int main(int argc, char * argv[]){
         switch(tamagoshi.etat_courant){
         case 0:
             if(tamagoshi.fitness >=10){
-                printf("[MAITRE DU JEU] :   GAME OVER : Votre vache est décédée de suralimentation \n indice pour la prochaine fois : surveillez l'etat de santé de votre vache, et essayez d'optimiser vos reserves de foin\n [MAITRE DU JEU] : Vous avez débloqué la fin '' American Simulator ''\n");
+                printf("[MAITRE DU JEU] :   GAME OVER : %s est décédée de suralimentation \n indice pour la prochaine fois : surveillez l'etat de santé de votre vache, et essayez d'optimiser vos reserves de foin\n [MAITRE DU JEU] : Vous avez débloqué la fin '' American Simulator ''\n", nom_vache);
                 affiche_bulle(" ByeByeLife :( ", 40, 0);
                 affiche_vache("XX","U ", 3, 0);
             }
             else{
-                printf("[MAITRE DU JEU] :   GAME OVER : Votre vache est morte de faim \n indice pour la prochaine fois : surveillez l'etat de santé de votre vache, et essayez d'optimiser vos reserves de foin\n [MAITRE DU JEU] : Vous avez débloqué la fin '' C'est la crise !! ''\n");
+                printf("[MAITRE DU JEU] :   GAME OVER : %s est morte de faim \n indice pour la prochaine fois : surveillez l'etat de santé de votre vache, et essayez d'optimiser vos reserves de foin\n [MAITRE DU JEU] : Vous avez débloqué la fin '' C'est la crise !! ''\n", nom_vache);
                 affiche_bulle(" ByeByeLife :( ", 40, 0);
                 affiche_vache("XX","U ", 3, 0);
             }
@@ -153,12 +175,13 @@ int main(int argc, char * argv[]){
             affiche_bulle(" LifeRoooooooooooooooooooooooocks :), on joue a un jeu ?", 40, 0);
             affiche_vache("^^", "  ", 3, 0);
             printf("\n\n\n");
-            jouer_minjeu = lire_entree("[MAITRE DU JEU] : Acceptez vous le defi de la vache ??  (1 pour oui, 0 pour non)   ");
+            printf("[MAITRE DU JEU] : Acceptez vous le defi de %s", nom_vache);
+            jouer_minjeu = lire_entree(" ??  (1 pour oui, 0 pour non)   ");
             if(jouer_minjeu >= 1){
                 if(minijeu()==1){
                     affiche_bulle(" Bienjoué, tu as trouvé, comme promis voici ta récompense", 40, 0);
                     affiche_vache("^^", "  ", 3, 0);
-                    printf("\n[MAITRE DU JEU] : La vache vous a récompensé pour votre victoire, +2 foin\n");
+                    printf("\n[MAITRE DU JEU] : %s vous a récompensé pour votre victoire, +2 foin\n", nom_vache);
                     stock += 2;
                 }
                 else{
@@ -170,7 +193,7 @@ int main(int argc, char * argv[]){
             break;
         default:
             fprintf(stderr, "Erreur : on dirait que quelque chose s'est mal passé lors du calcul de l'etat suivant de la vache\n");
-            break;
+            return 1;
         }
     }
     return 0;
