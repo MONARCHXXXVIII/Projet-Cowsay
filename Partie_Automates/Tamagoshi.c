@@ -169,8 +169,11 @@ int main(int argc, char * argv[]){
                 printf("[Riyad] : J'viens d'avoir une idée, au lieu de s'embeter a nourir cette vache, si on en faisait un barbecue ??\n");
                 sleep(5);
                 printf("[Vous] : Bonne idée, je commencais a avoir faim, c'est d'ailleurs pour ca que j'ai tapé ce code de triche\n");
+                sleep(5);
                 printf("[Artur] : Bon bah let's go, riyad allume le barbecue pendant qu'on s'occupe de la vache\n");
+                sleep(5);
                 printf("[MAITRE DU JEU] : Et vous trois finirez rassasié au terme d'un repas de 4heures dans lequel vous vous etes délécté de la vache\n");
+                sleep(5);
                 printf("[MAITRE DU JEU] : Vous avez débloqué la fin spéciale '' Bifteack haché de Tamagoshi '' \n");
                 free(nom_vache);
                 return 0;
