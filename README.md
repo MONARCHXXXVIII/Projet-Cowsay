@@ -838,7 +838,7 @@ Ensuite la fonction `main` est une gestion assez classique d'automate:
 Dans ce programme comme dans celui de `wildcow.c`, on affiche a l'ecran des caracteres non `ASCII`.  
 Or pour rappel les caracteres `UTF-8` ne sont pas supportés sur tous les terminaux de commande (notamment sur Windows).  
 Pour y remédier, on réutilise
-```
+```c
 system("chcp 65001");
 ```
 afin de forcer les terminaux a supporter les caracteres `UTF-8`.  
@@ -852,13 +852,63 @@ l'option de compilateur
 ```
 résoudra définitivement le probleme (enfin normalement).  
 
-### Codes de triche & Options cachées
+### Codes de triche & Options cachées  
+
+Voici les Codes de triche que nous avons implémenté afin de rendre le jeu plus drole.  
 
 | Code | Signification | Ou le mettre | Effet |
 |---|---|---|---|
 | 28082007 | Date d'anniversaire de riyad | Quand la vache est en surpoids | Débloque une fin spéciale |
-| XXXXXXXX | Date d'anniversaire d'Arthur | Pendant le mini-jeu | Débloque une autre fin spéciale |
+| 07072007 | Date d'anniversaire d'Arthur | Pendant le mini-jeu | Débloque une autre fin spéciale |
 | 1W4NTH4YB4L3 | *i want hay bale*, je veux du foin | Quand il faut nourrir la vache | Donne +5 foins |
+
+En plus de ces codes, il existe une option qui active un mode administrateur.  
+Si au moment de lancer le jeu vous mettez l'option
+```
+ ./Tamagoshi --mode-admin
+```
+le jeu se lance en mode administrateur, un mode que nous avons implémenté pour rendre les débugages moins pénibles. Avec ce mode activé, la variable `fitness` vous sera affichée a chaque tour, et pendant le mini-jeu, la réponse vous sera révélée. On a décidée de la laisser dans le programme, juste au cas ou vous auriez envie de tester.  
+
+## Difficultés rencontrés
+Bien que la partie automate ait été moins difficile que la partie C, nous avons quand meme rencontré quelques difficultés, dont voici les principales  
+
+### Buffer statique buggé
+Pour rappel, la fonction `lire_entree` est définie comme ceci:  
+
+```c
+char* lire_entree(const char* message){
+    static char entree[100];
+    printf("%s", message);
+    fgets(entree, sizeof(entree), stdin);
+    entree[strcspn(entree, "\n")] = 0;
+    return entree;
+}
+```
+On utilise ici un buffer statique (donc qui n'est pas réinitialisé a chaque appel) afin d'empecher un BufferOverflow. Cependant lorsque l'on utilise la fonction pour initialiser une chaine de caractere, la chaine initialisée changeait a chaque autre appel de `lire_entree` a cause du buffer statique.
+La solution etait d'initialiser les chaines de caracteres par allocation dynamique, par exemple : 
+
+```c
+char* nom_vache = malloc(100);
+strcpy(nom_vache, lire_entree("Quel nom donnerez vous a votre vache ? "));
+```
+
+### Fuite mémoire
+
+Puisque nous avons utilisé l'allocation dynamique, nous devons libérer chaque élément initialisé par un `malloc` en mettant
+```c
+free(...); 
+```
+avant de terminer le programme.  
+
+Cependant, certains évenements menait le programme a s'arreter avant l'arret standard de l'automate.
+Ainsi si les éléments n'étaient pas égalements libérés avant ces arrets, cela causait une fuite de mémoire.  
+Pour résoudre ce probleme il fallait simplement regarder tous les `return` de la fonction `main` et libérer la mémoire avant.  
+
+### Caracteres UTF-8 non supportés
+
+Comme expliqué plus tot, les séquences UTF-8 ne sont pas supportés sur tous les terminaux, ce qui conduisait a un affichage bizarre en console. La solution a ce probleme a déjà été détaillée plus haut.
+
+
 
 
 ## Conclusion
