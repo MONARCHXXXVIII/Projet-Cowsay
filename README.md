@@ -880,17 +880,6 @@ Il s'avère que 87Mb pour un model LLM c'est très petit donc pour que ça fonct
 
 A l'origine je voulais faire un jeu en 2d vue de dessus ou on affronte des vaches avec notre tamagoshi, et puis je me suis dis que la 3d c'est stylé, et puis que ça ressemblais beaucoup à DOOM et la je suis partit un peu loin. J'espere que vous allez passer un bon moment !  
 
-
----
-
-**Partie IA :**
-
-```bash
-cd IA
-make vache_folle
-./vache_folle "Qui es-tu ?"
-```
-
 ---
 
 # Partie IA
@@ -917,6 +906,14 @@ Le `Makefile` clone et compile `llama.cpp` automatiquement si nécessaire.
 
 ```bash
 ./vache_folle "Tu as faim ?"
+```
+
+En un seul morceau :
+
+```bash
+cd IA
+make vache_folle
+./vache_folle "Qui es-tu ?"
 ```
 
 Le model est Falcon_FineTune.Q6_K.gguf dans le dossier /IA. 
