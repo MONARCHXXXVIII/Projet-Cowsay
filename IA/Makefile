@@ -17,6 +17,18 @@ SRC         = vache_folle.c
 LLAMA_DIR   = llama.cpp
 LLAMA_BUILD = $(LLAMA_DIR)/build
 
+# Sélection d'un générateur CMake robuste selon l'environnement.
+# Ninja évite plusieurs soucis de parsing rencontrés avec certains make.
+NINJA_BIN   := $(shell command -v ninja 2>/dev/null)
+ifeq ($(strip $(NINJA_BIN)),)
+	CMAKE_GEN := Unix Makefiles
+else
+	CMAKE_GEN := Ninja
+endif
+
+# Détection portable du nombre de coeurs.
+NPROC       := $(shell nproc 2>/dev/null || getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1)
+
 # En-têtes llama.cpp
 INCLUDES    = -I$(LLAMA_DIR)/include -I$(LLAMA_DIR)/ggml/include
 
@@ -48,6 +60,7 @@ $(LLAMA_DIR):
 $(LLAMA_LIB): $(LLAMA_DIR)
 	@echo "==> Build de llama.cpp (CPU uniquement)..."
 	cmake -S $(LLAMA_DIR) -B $(LLAMA_BUILD) \
+	      -G "$(CMAKE_GEN)" \
 	      -DCMAKE_BUILD_TYPE=Release \
 	      -DBUILD_SHARED_LIBS=OFF \
 	      -DLLAMA_BUILD_TESTS=OFF \
@@ -55,7 +68,7 @@ $(LLAMA_LIB): $(LLAMA_DIR)
 	      -DLLAMA_BUILD_SERVER=OFF \
 	      -DGGML_CUDA=OFF \
 	      -DGGML_METAL=OFF
-	cmake --build $(LLAMA_BUILD) --config Release -j$(shell nproc)
+	cmake --build $(LLAMA_BUILD) --config Release -j$(NPROC)
 
 # --- Compilation du programme de test --------------------------------------
 $(TARGET): $(SRC) $(LLAMA_LIB)

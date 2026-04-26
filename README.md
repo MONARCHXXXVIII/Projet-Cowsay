@@ -93,6 +93,13 @@ gcc -Wall -Wextra -std=c99 -o reading_cow  reading_cow.c
 > des variables au milieu d'un bloc (ex. `int i` dans un `for`), ce que C89
 > interdit. Sans ce flag, gcc peut refuser certaines déclarations.
 
+**Partie IA**
+
+```bash
+sudo apt update
+sudo apt install -y build-essential cmake git ninja-build
+```
+
 # Partie Bash
 
 ## Vue d'ensemble Bash
