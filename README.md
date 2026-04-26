@@ -1,10 +1,11 @@
 # Projet Cowsay
 
-Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par Riyad BOUDALIA (MONARCHXXXVIII sur Github) et Arthur COLIN (Ayvem). Le projet est divisé en quatre parties complémentaires :
+Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par Riyad BOUDALIA (MONARCHXXXVIII sur Github) et Arthur COLIN (Ayvem). Le projet est divisé en trois parties complémentaires plus des idées de Arthur qui n'avais rien à faire (IA, DOOM?):
 - **Partie Bash** : Scripts shell utilisant la commande `cowsay` pour afficher des suites mathématiques
 - **Partie C** : Réimplémentation et extensions de `cowsay` en C pur avec animations et fonctionnalités avancées
 - **Partie Automates** : Implémentation du jeu `Tamagoshi` en C a l'aide d'automates
 - **Partie IA** : Inférence locale d'un modèle GGUF avec `llama.cpp` via le programme `vache_folle`
+- **COWDOOM** : Mini-FPS ASCII en C inspiré de DOOM, avec des vaches, rendu raycasting et fenêtre SDL2 (Parce que pourquoi pas)
 
 ---
 
@@ -29,6 +30,12 @@ Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par
   - [Vue d'ensemble](#vue-densemble-ia)
   - [Compilation](#compilation-ia)
   - [Exécution](#execution-ia)
+6. [COWDOOM](#cowdoom)
+   - [Vue d'ensemble](#vue-densemble-cowdoom)
+   - [Installation](#installation-cowdoom)
+   - [Compilation et lancement](#compilation-et-lancement)
+   - [Commandes](#commandes)
+   - [Structure du code](#structure-du-code)
 
 
 
@@ -910,6 +917,69 @@ Comme expliqué plus tot, les séquences UTF-8 ne sont pas supportés sur tous l
 
 
 
+
+---
+
+# COWDOOM
+
+## Vue d'ensemble COWDOOM
+
+COWDOOM est un prototype de mini-FPS ASCII en C inspiré de DOOM, dans lequel le joueur affronte des vagues de vaches ennemies. Le rendu pseudo-3D est obtenu par raycasting simplifié et affiché caractère par caractère dans une fenêtre SDL2.
+
+Deux modes de jeu sont proposés au lancement via un menu interactif :
+- **Mode Survie** : vagues infinies de vaches dont la vitesse augmente progressivement
+- **Mode Attaque** : grande carte avec un nombre cible de vaches à éliminer, puis un boss final
+
+Un curseur `>>>` indique clairement le mode sélectionné dans le menu.
+
+## Installation COWDOOM
+
+Dépendances requises (Linux) :
+
+```bash
+sudo apt update
+sudo apt install -y libsdl2-dev pkg-config
+```
+
+## Compilation et lancement
+
+```bash
+cd COWDOOM
+make
+./cowdoom
+```
+
+Le jeu s'ouvre dans une fenêtre redimensionnable. La touche `F11` bascule en plein écran.
+ATTENTION : prendre en main les déplacements est un peut contraignant il est normal de se faire massacrer au début. Aussi il n'est pas obligatoire de tirer pile sur l'ennemi le jeu est plustot généreux sur les hitbox. Et on ne juge PAS la qualitée de dessin de mes vaches (oui elles sont malades, même à l'article de la mort, et alors?)
+
+## Commandes
+
+| Touche | Action |
+|---|---|
+| `z` / `w` | Avancer |
+| `s` | Reculer |
+| `q` / `a` | Déplacement gauche (strafe) |
+| `d` | Déplacement droite (strafe) |
+| Flèche gauche / droite | Rotation caméra (la souris m'a fait pe*er un cable sur WSL) |
+| Espace | Tirer |
+| `r` | Recharger l'arme |
+| Flèche haut / bas | Naviguer dans le menu |
+| Entrée | Valider le mode dans le menu |
+| `F11` | Plein écran / fenêtre |
+| `x` / Échap | Quitter |
+
+## Structure du code
+
+| Fichier | Rôle |
+|---|---|
+| `src/main.c` | Boucle de jeu et timing |
+| `src/input.c` | Lecture clavier SDL2 instantanée (sans validation par Entrée) |
+| `src/game.c` | Logique, raycasting, rendu ASCII, mini-carte |
+| `src/video.c` | Fenêtre SDL2 et affichage des caractères ASCII |
+| `include/` | Interfaces (`game.h`, `input.h`, `video.h`) |
+| `tools/cowdoom_mouse_lock.py` | Utilitaire de verrouillage souris |
+
+---
 
 ## Conclusion
 
