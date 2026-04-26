@@ -137,10 +137,15 @@ int main(int argc, char * argv[]){
         printf("███***********************MODE ADMIN ACTIF******************************███\n");
         printf("███████████████████████████████████████████████████████████████████████████\n");
     }
-    printf("\n[MAITRE DU JEU] : Je suis le maitre du tamagoshi, et je vous guiderai tout au long du jeu\n[MAITRE DU JEU] :  Qui suis-je ? Des fois Arthur, des fois Riyad, les deux a la fois, ou aucun des deux ça dépend.\n [MAITRE DU JEU] : Votre but sera de vous occuper de la vache pour la faire vivre le plus longtemps possible.\n");
-    sleep(1);
+    sleep(3);
+    printf("\n[MAITRE DU JEU] : Je suis le maitre du tamagoshi, et je vous guiderai tout au long du jeu\n");
+    sleep(3);
+    printf("[MAITRE DU JEU] :  Qui suis-je ? Des fois Arthur, des fois Riyad, les deux a la fois, ou aucun des deux ça dépend.\n");
+    sleep(3);
+    printf("[MAITRE DU JEU] : Votre but sera de vous occuper de la vache pour la faire vivre le plus longtemps possible.\n");
+    sleep(3);
     printf("[MAITRE DU JEU] : Au fait ca va etre pénible de toujours l'appeler 'vache', pourriez vous lui donner un nom ?\n");
-    sleep(1);
+    sleep(3);
     char* nom_vache = malloc(100);
     strcpy(nom_vache, lire_entree("Quel nom donnerez vous a votre vache ? "));
 
@@ -186,16 +191,15 @@ int main(int argc, char * argv[]){
         transition(&tamagoshi, atoi(qtt_nourriture));
         crop = (rand()%6 + 1) - 3;
         stock += crop - atoi(qtt_nourriture);
-        //printf("%d", tamagoshi.fitness);
         switch(tamagoshi.etat_courant){
         case 0:
             if(tamagoshi.fitness >=10){
-                printf("[MAITRE DU JEU] :   GAME OVER : %s est décédée de suralimentation \n indice pour la prochaine fois : surveillez l'etat de santé de votre vache, et essayez d'optimiser vos reserves de foin\n [MAITRE DU JEU] : Vous avez débloqué la fin '' American Simulator ''\n", nom_vache);
+                printf("[MAITRE DU JEU] :   GAME OVER : %s est décédée de suralimentation \n[MAITRE DU JEU] :   indice pour la prochaine fois : surveillez l'etat de santé de votre vache, et essayez d'optimiser vos reserves de foin\n[MAITRE DU JEU] : Vous avez débloqué la fin '' American Simulator ''\n", nom_vache);
                 affiche_bulle(" ByeByeLife :( ", 40, 0);
                 affiche_vache("XX","U ", 3, 0);
             }
             else{
-                printf("[MAITRE DU JEU] :   GAME OVER : %s est morte de faim \n indice pour la prochaine fois : surveillez l'etat de santé de votre vache, et essayez d'optimiser vos reserves de foin\n [MAITRE DU JEU] : Vous avez débloqué la fin '' C'est la crise !! ''\n", nom_vache);
+                printf("[MAITRE DU JEU] :   GAME OVER : %s est morte de faim \n[MAITRE DU JEU] :   indice pour la prochaine fois : surveillez l'etat de santé de votre vache, et essayez d'optimiser vos reserves de foin\n[MAITRE DU JEU] : Vous avez débloqué la fin '' C'est la crise !! ''\n", nom_vache);
                 affiche_bulle(" ByeByeLife :( ", 40, 0);
                 affiche_vache("XX","U ", 3, 0);
             }

@@ -8,7 +8,6 @@ void transition(Automate *a, int lunchfood){
     a->fitness += (lunchfood - digestion -1);
 
     if(a->fitness >10) a->fitness = 10;
-    if(a->fitness <0) a->fitness = 0;
 
     if(a->fitness <= 0 || a->fitness >= 10){
         a->etat_suivant = 0;
