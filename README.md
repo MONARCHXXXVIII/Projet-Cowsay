@@ -93,6 +93,13 @@ gcc -Wall -Wextra -std=c99 -o reading_cow  reading_cow.c
 > des variables au milieu d'un bloc (ex. `int i` dans un `for`), ce que C89
 > interdit. Sans ce flag, gcc peut refuser certaines déclarations.
 
+**Partie Automates**
+
+```bash
+make
+make clean
+```
+
 **Partie IA**
 
 ```bash
@@ -396,6 +403,21 @@ $ ./newcow --wrap 20 "Voici un très long message qui doit être coupé"
 ```
 > Quand le texte est plus long que `wrap`, les bordures changent :
 > `/` et `\` pour la première et dernière ligne, `|` pour les lignes du milieu.
+
+**Exemple 7 — Sans aucun argument:**
+```
+$ ./newcow
+ ___________________
+< yo,riyad m'a cree >
+ -------------------
+        \  ^__^
+         \ (oo)\_______
+           (__)\       )\/\
+               ||----w |
+               ||     ||
+```
+> Le message par défaut est "riyad m'a cree" car c'est Riyad qui s'est occupé de cette partie :)
+
 
 ### Lignes délicates dans newcow.c
 
