@@ -813,10 +813,10 @@ Nous les utiliseront afin d'afficher des messages, ainsi que pour créer des vis
 
 ### Idée Principale du Jeu
 Outre les fonctionalités fondamentales du Tamagoshi decrites dans l'enoncé, nous avons eu quelques bonnes (ou pas :/) idées pour améliorer le jeu.  
-  *Pour commencer, si la vache se sent bien (etat `LIFEROCKS`), elle propose au joueur un mini-jeu qui peut lui faire gagner deux bottes de foin.  
-  *Ensuite, lorsque le joueur perd (ou dans d'autres cas spéciaux), le joueur débloque plusieurs fins ayant différents noms.  
-  *Faire un titre ASCII stylé grace a ascii-art.com (bon au final c'est de l'UTF-8).  
-  *Il y a aussi quelques `cheat-codes` qui permettent de débloquer des fins spéciales, ou un mode admin qui permet d'afficher la variable d'etat de santé de la vache (On vous les donnera un peu plus tard).  
+  * Pour commencer, si la vache se sent bien (etat `LIFEROCKS`), elle propose au joueur un mini-jeu qui peut lui faire gagner deux bottes de foin.  
+  * Ensuite, lorsque le joueur perd (ou dans d'autres cas spéciaux), le joueur débloque plusieurs fins ayant différents noms.  
+  * Faire un titre ASCII stylé grace a ascii-art.com (bon au final c'est de l'UTF-8).  
+  * Il y a aussi quelques `cheat-codes` qui permettent de débloquer des fins spéciales, ou un mode admin qui permet d'afficher la variable d'etat de santé de la vache (On vous les donnera un peu plus tard).  
 
 *Fun Fact* : Arthur a eu l'idee de connecter un mini LLM de 100Mo a la Tamagoshi Cow pour pouvoir parler a la vache. On a cependant du oublier cette idée car le LLM était tellement léger qu'il répondait toujours 40km a coté de la plaque......UPDATE : IL L'A VRAIMENT MIS 💀💀
 
@@ -977,7 +977,17 @@ Tu fais des sons de vache :
 Le model est Falcon_FineTune.Q6_K.gguf dans le dossier /IA. 
 Ce model est particulierement petit (87Mb) et donc possede une intélligence TRES TRES TRES limitée.
 Pour éviter qu'il ne se mette à écrire du texte illisible dans un dialecte étrange (Espagnol) j'ai été forcé de le finetuner en python sur des exemples de phrases en français style "vache".
-On va dire que cela à fonctionné à 50% voilà pourquoi le titre de vache folle :) 
+On va dire que cela à fonctionné à 50% voilà pourquoi le titre de vache folle :)  
+
+
+## Connection LLM - Vache
+
+Afin de connecter le mini LLM fine-tuné a notre vache (ici c'est riyad qui ecrit ca), on a eu l'idée de réutiliser les fonctions de `reading-cow`, car au final le procédé de lecture de `reading_cow` est assez semblable a celui de la génération de Chat-GPT.  
+L'idee generale est que ce modele génere du texte par morceaux (un morceau par token), donc afin de faire réciter la sortie du LLM a la vache, on pouvait juste pipe la sortie de `vache_folle` dans `reading_cow`.....sauf que c'est penible vu que ca force a utiliser deux programmes juste pour ca.  
+A la place, on réimplémente juste les fonctions de `reading_cow` dans `vache_folle`, et on affiche chaque fragment de la sortie du LLM dans la vache.  
+Or il y avait encore un petit soucis technique :  ChatGPT (ou autre LLM c'est pareil) est codé en python de A a Z, donc sa génération est suffisament lente pour que le lecteur puisse la lire, car python est un langage a execution lente.  
+Cependant ici notre programme C générait la sortie beaucoup trop rapidement, donc on ne pouvait rien lire (on n'arrivait meme pas a comprendre pourquoi tellement c'etait rapide).  
+La solution était juste de mettre un `usleep` entre l'affichage de chaque caractere pour que la sortie soit visible, mais fluide.  
 
 ---
 
@@ -1044,4 +1054,7 @@ ATTENTION : prendre en main les déplacements est un peut contraignant il est no
 
 ## Conclusion
 
-Le projet Cowsay nous a permis de developper nos compétences techniques en bash et en C, ainsi que notre capacité a travailler et a s'organiser pour le mener a bien. Arthur étant habitué du bash et Riyad ayant deja pas mal programmé en C/C++, nous avons pu mettre en oeuvres nos acquis afin de pousser le projet un peu (BEAUCOUP) plus loin dans les implemetations.
+Le projet Cowsay nous a permis de developper nos compétences techniques en bash et en C, ainsi que notre capacité a travailler et a s'organiser pour le mener a bien. Arthur étant habitué du bash et Riyad ayant deja pas mal programmé en C/C++, nous avons pu mettre en oeuvres nos acquis afin de pousser le projet un peu (BEAUCOUP) plus loin dans les implemetations.  
+On espere que vous avez apprécié car ca nous a pris...ENORMEMENT de temps pour faire ce projet.
+
+Riyad BOUDALIA & Arthur COLIN, IMA04
