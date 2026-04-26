@@ -1,9 +1,10 @@
 # Projet Cowsay
 
-Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par Riyad BOUDALIA (MONARCHXXXVIII sur Github) et Arthur COLIN (Ayvem). Le projet est divisé en trois parties complémentaires :
+Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par Riyad BOUDALIA (MONARCHXXXVIII sur Github) et Arthur COLIN (Ayvem). Le projet est divisé en quatre parties complémentaires :
 - **Partie Bash** : Scripts shell utilisant la commande `cowsay` pour afficher des suites mathématiques
 - **Partie C** : Réimplémentation et extensions de `cowsay` en C pur avec animations et fonctionnalités avancées
 - **Partie Automates** : Implémentation du jeu `Tamagoshi` en C a l'aide d'automates
+- **Partie IA** : Inférence locale d'un modèle GGUF avec `llama.cpp` via le programme `vache_folle`
 
 ---
 
@@ -24,12 +25,16 @@ Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par
    - [Automate.c](#automatec--implementation-structure-automate)
    - [Tamagoshi.c](#tamagoshic--programe-principal)
    - [Difficultés rencontrées](#difficultés-rencontrées-et-choix-techniques)
+5. [Partie IA](#partie-ia)
+  - [Vue d'ensemble](#vue-densemble-ia)
+  - [Compilation](#compilation-ia)
+  - [Exécution](#execution-ia)
 
 
 
 ---
 
-**Note importante sur l'Utilisation de l'IA** : Afin de mener a bien ce projet, nous avons utilisé certaines intelligences artificielles afin de nous documenter sur certains aspects du Bash et du C, en particulier lorsque des forums comme *Stack Overflow* ne repondaient pas a ce que l'on voulait savoir. **Cependant** il n'y a absolument **AUCUN** morceau de code (meme partiel) qui aurait été copié/collé d'une IA Générative, y compris ce fichier Markdown qui a chaque partie a été rédigée par le membre l'ayant implémenté.
+**Note importante sur l'Utilisation de l'IA** : Afin de mener a bien ce projet, nous avons utilisé certaines intelligences artificielles afin de nous documenter sur certains aspects du Bash et du C, en particulier lorsque des forums comme *Stack Overflow* ne repondaient pas a ce que l'on voulait savoir. **Cependant** il n'y a absolument **AUCUN** morceau de code (meme partiel) qui aurait été copié/collé d'une IA Générative, y compris ce fichier Markdown qui a chaque partie a été rédigée par le membre l'ayant implémenté d'ou les fautes d'aurtograf.
 
 ## Prérequis et Installation
 
@@ -38,6 +43,8 @@ Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par
 - **Bash shell** (pour les scripts de la Partie Bash)
 - **gcc** (compilateur C, pour la Partie C)
 - **make** (optionnel, pour faciliter la compilation de la Partie C)
+- **cmake** et **git** (pour compiler `llama.cpp` en Partie IA)
+- **Python 3** (si vous utilisez le workflow `IA/finetune_fr`)
 - Commande `cowsay` installée (pour la Partie Bash)
 
 ### Installation de cowsay
@@ -78,6 +85,47 @@ gcc -Wall -Wextra -std=c99 -o reading_cow  reading_cow.c
 > **Note sur `-std=c99`** : on utilise le standard C99 pour pouvoir déclarer
 > des variables au milieu d'un bloc (ex. `int i` dans un `for`), ce que C89
 > interdit. Sans ce flag, gcc peut refuser certaines déclarations.
+
+**Partie IA :**
+
+```bash
+cd IA
+make vache_folle
+./vache_folle "Qui es-tu ?"
+```
+
+---
+
+# Partie IA
+
+## Vue d'ensemble IA
+
+La Partie IA fournit une inférence locale en C via `llama.cpp`.
+Le programme principal est `IA/vache_folle.c` et charge un modèle GGUF pour
+répondre en français à des prompts utilisateur. 
+
+J'aime bien l'IA et je voulais faire un truc avec mais github m'a pas mal restreint. (Arthur Colin)
+
+## Compilation IA
+
+Depuis le dossier `IA/` :
+
+```bash
+make vache_folle
+```
+
+Le `Makefile` clone et compile `llama.cpp` automatiquement si nécessaire.
+
+## Exécution IA
+
+```bash
+./vache_folle "Tu as faim ?"
+```
+
+Le model est Falcon_FineTune.Q6_K.gguf dans le dossier /IA. 
+Ce model est particulierement petit (87Mb) et donc possede une intéligence TRES TRES TRES limitée.
+Pour éviter qu'il ne se mette à écrire du texte illisible dans un dialecte étrange (Espagnol) j'ai été forcé de le finetuné en python sur des exemples de phrases en français style "vache".
+On va dire que cela à fonctionné à 50% voilà pourquoi le titre de vache folle :) 
 
 ---
 
