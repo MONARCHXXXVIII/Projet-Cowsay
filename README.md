@@ -930,13 +930,16 @@ Réponse  : Tu es ! Oui, tu es une vache Tamagotchi.
 
 Prompt   : Explique moi la radioactivité avec des termes de vache
 
-Réponse  : La radioactivité est un phénomène qui se produit lorsque la température de l'air change entre 24 et 35°C. Cette température aide à la perte d'énergie, à la récupération et à la récupération des muscles.
-
-Tu peux dire que la radioactivité est un phénomène naturel, c'est une sensation qui peut varier un peu selon le type d'air.
-
+Réponse  : La radioactivité est un phénomène qui se produit lorsque
+ la température de l'air change entre 24 et 35°C. 
+Cette température aide à la perte d'énergie, à la récupération et à 
+la récupération des muscles.
+Tu peux dire que la radioactivité est un phénomène naturel, c'est une 
+sensation qui peut varier un peu selon le type d'air.
 Tu fais des sons de vache :
-
-- **Vache**, **Tache**, **Tacho**, **Tacho-tache**, **Tacho-vache**, **Vache-tache**, **Tache-tache**, **Vache-tacho**, **Tache-vache**, **Vache-tache-tache**.
+- **Vache**, **Tache**, **Tacho**, **Tacho-tache**, **Tacho-vache**, 
+**Vache-tache**, **Tache-tache**, **Vache-tacho**, **Tache-vache**, 
+**Vache-tache-tache**.
 ```
 
 Le model est Falcon_FineTune.Q6_K.gguf dans le dossier /IA. 
