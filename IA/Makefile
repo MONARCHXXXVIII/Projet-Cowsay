@@ -21,7 +21,7 @@ NPROC := $(shell nproc 2>/dev/null || getconf _NPROCESSORS_ONLN 2>/dev/null || e
 
 # Compilateur
 CC      = gcc
-CFLAGS  = -Wall -Wextra -O2 -std=c11 -march=native
+CFLAGS  = -Wall -Wextra -O2 -std=c11 -march=native -fexec-charset=UTF-8
 
 # Includes
 INCLUDES = -I$(LLAMA_DIR)/include -I$(LLAMA_DIR)/ggml/include
