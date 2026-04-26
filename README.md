@@ -874,7 +874,7 @@ Comme expliqué plus tot, les séquences UTF-8 ne sont pas supportés sur tous l
 
 ### IA stupide 
 
-Il s'avère que 87Mb pour un model LLM c'est très petit donc pour que ça fonctionne j'ai été obligé de fine-tuner le model ce qui as été particulierement compliqué (je plaide coupable j'ai fine-tuné le model avec python, en C c'était sucidaire)
+Il s'avère que 87Mb pour un model LLM c'est très petit donc pour que ça fonctionne j'ai été obligé de fine-tuner le model ce qui as été particulierement compliqué (je plaide coupable j'ai fine-tuné avec python, en C c'était sucidaire)
 
 ### DOOM ?
 
