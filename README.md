@@ -41,7 +41,7 @@ Voici le compte rendu documentant l'intégralité du projet Cowsay réalisé par
 
 ---
 
-**Note importante sur l'Utilisation de l'IA** : Afin de mener a bien ce projet, nous avons utilisé certaines intelligences artificielles afin de nous documenter sur certains aspects du Bash et du C, en particulier lorsque des forums comme *Stack Overflow* ne repondaient pas a ce que l'on voulait savoir. **Cependant** il n'y a absolument **AUCUN** morceau de code (meme partiel) qui aurait été copié/collé d'une IA Générative, y compris ce fichier Markdown qui a chaque partie a été rédigée par le membre l'ayant implémenté d'ou les fautes d'aurtograf.
+**Note importante sur l'Utilisation de l'IA** : Afin de mener a bien ce projet, nous avons utilisé certaines intelligences artificielles afin de nous documenter sur certains aspects du Bash et du C, en particulier lorsque des forums comme *Stack Overflow* ne repondaient pas a ce que l'on voulait savoir. **Cependant** il n'y a absolument **AUCUN** morceau de code (meme partiel) qui aurait été copié/collé d'une IA Générative, y compris ce fichier Markdown qui a chaque partie a été rédigée par le membre l'ayant implémenté d'ou les fautes d'aurtograf (c'est arthur qui a écrit ca.).
 
 ## Prérequis et Installation
 
@@ -789,7 +789,7 @@ Outre les fonctionalités fondamentales du Tamagoshi decrites dans l'enoncé, no
   *Faire un titre ASCII stylé grace a ascii-art.com (bon au final c'est de l'UTF-8).  
   *Il y a aussi quelques `cheat-codes` qui permettent de débloquer des fins spéciales, ou un mode admin qui permet d'afficher la variable d'etat de santé de la vache (On vous les donnera un peu plus tard).  
 
-*Fun Fact* : Arthur a eu l'idee de connecter un mini LLM de 100Mo a la Tamagoshi Cow pour pouvoir parler a la vache. On a cependant du oublier cette idée car le LLM était tellement léger qu'il répondait toujours 40km a coté de la plaque.
+*Fun Fact* : Arthur a eu l'idee de connecter un mini LLM de 100Mo a la Tamagoshi Cow pour pouvoir parler a la vache. On a cependant du oublier cette idée car le LLM était tellement léger qu'il répondait toujours 40km a coté de la plaque......UPDATE : IL L'A VRAIMENT MIS 💀💀
 
 ### Fonctionnement du Code
 Premierement, on définit quelques fonctions auxilliaires qui nous seront tres utiles pour la suite de la gestion de l'automate, comme `lire_entree`.  
@@ -881,12 +881,15 @@ Il s'avère que 87Mb pour un model LLM c'est très petit donc pour que ça fonct
 A l'origine je voulais faire un jeu en 2d vue de dessus ou on affronte des vaches avec notre tamagoshi, et puis je me suis dis que la 3d c'est stylé, et puis que ça ressemblais beaucoup à DOOM et la je suis partit un peu loin. J'espere que vous allez passer un bon moment !  
 
 ---
+## Message au lecteur :
+Ce qui nous a été demandé dans les consignes du projet a déja été rempli au dessus. A partir de maintenant tout ce qui suit écoule des idées foireuses d'Arthur
+---
 
 # Partie IA
 
 ## Vue d'ensemble IA
 
-La Partie IA fournit une inférence locale en C via `llama.cpp`.
+La Partie IA fournit une inférence locale en C via `llama.cpp`. (normalement `.cpp` est une extension de fichiers source `C++`, mais ici ca marche tres bien en C)
 Le programme principal est `IA/vache_folle.c` et charge un modèle GGUF pour
 répondre en français à des prompts utilisateur. 
 
@@ -1012,4 +1015,4 @@ ATTENTION : prendre en main les déplacements est un peut contraignant il est no
 
 ## Conclusion
 
-Le projet Cowsay nous a permis de developper nos compétences techniques en bash et en C, ainsi que notre capacité a travailler et a s'organiser pour le mener a bien. Arthur étant habitué du bash et Riyad ayant deja pas mal programmé en C/C++, nous avons pu mettre en oeuvres nos acquis afin de pousser le projet un peu plus loin dans les implemetations.
+Le projet Cowsay nous a permis de developper nos compétences techniques en bash et en C, ainsi que notre capacité a travailler et a s'organiser pour le mener a bien. Arthur étant habitué du bash et Riyad ayant deja pas mal programmé en C/C++, nous avons pu mettre en oeuvres nos acquis afin de pousser le projet un peu (BEAUCOUP) plus loin dans les implemetations.
