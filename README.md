@@ -944,7 +944,7 @@ Tu fais des sons de vache :
 
 Le model est Falcon_FineTune.Q6_K.gguf dans le dossier /IA. 
 Ce model est particulierement petit (87Mb) et donc possede une intélligence TRES TRES TRES limitée.
-Pour éviter qu'il ne se mette à écrire du texte illisible dans un dialecte étrange (Espagnol) j'ai été forcé de le finetuné en python sur des exemples de phrases en français style "vache".
+Pour éviter qu'il ne se mette à écrire du texte illisible dans un dialecte étrange (Espagnol) j'ai été forcé de le finetuner en python sur des exemples de phrases en français style "vache".
 On va dire que cela à fonctionné à 50% voilà pourquoi le titre de vache folle :) 
 
 ---
