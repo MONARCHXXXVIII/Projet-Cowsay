@@ -1,14 +1,5 @@
 # ===========================================================================
-# Makefile — vache_folle (inférence locale GGUF via llama.cpp)
-#
-# Prérequis système :
-#   sudo apt install build-essential cmake git
-#
-# Utilisation :
-#   make            → clone llama.cpp (si absent) + compile
-#   make run        → exécute avec le prompt par défaut
-#   make clean      → supprime le binaire
-#   make distclean  → supprime le binaire ET le répertoire llama.cpp
+# Makefile — vache_folle (normalement celui la marche)
 # ===========================================================================
 
 TARGET      = vache_folle
@@ -17,8 +8,7 @@ SRC         = vache_folle.c
 LLAMA_DIR   = llama.cpp
 LLAMA_BUILD = $(LLAMA_DIR)/build
 
-# Sélection d'un générateur CMake robuste selon l'environnement.
-# Ninja évite plusieurs soucis de parsing rencontrés avec certains make.
+# Détection Ninja (plus fiable que Make sous Windows)
 NINJA_BIN   := $(shell command -v ninja 2>/dev/null)
 ifeq ($(strip $(NINJA_BIN)),)
 	CMAKE_GEN := Unix Makefiles
@@ -26,39 +16,36 @@ else
 	CMAKE_GEN := Ninja
 endif
 
-# Détection portable du nombre de coeurs.
-NPROC       := $(shell nproc 2>/dev/null || getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1)
+# Nombre de coeurs
+NPROC := $(shell nproc 2>/dev/null || getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1)
 
-# En-têtes llama.cpp
-INCLUDES    = -I$(LLAMA_DIR)/include -I$(LLAMA_DIR)/ggml/include
+# Compilateur
+CC      = gcc
+CFLAGS  = -Wall -Wextra -O2 -std=c11 -march=native
 
-# Bibliothèques produites par cmake
-LLAMA_LIB   = $(LLAMA_BUILD)/src/libllama.a
-GGML_LIBS   = $(LLAMA_BUILD)/ggml/src/libggml.a \
-              $(LLAMA_BUILD)/ggml/src/libggml-base.a \
-              $(LLAMA_BUILD)/ggml/src/libggml-cpu.a
+# Includes
+INCLUDES = -I$(LLAMA_DIR)/include -I$(LLAMA_DIR)/ggml/include
 
-LDFLAGS     = -L$(LLAMA_BUILD)/src \
-              -L$(LLAMA_BUILD)/ggml/src \
-              -lllama -lggml -lggml-base -lggml-cpu \
-              -lstdc++ -lm -lpthread -fopenmp
+# LDFLAGS (ordre important !)
+LDFLAGS = -L$(LLAMA_BUILD)/src -lllama \
+          -L$(LLAMA_BUILD)/ggml/src -lggml -lggml-base -lggml-cpu \
+          -lstdc++ -lm -lpthread -fopenmp
 
-CC          = gcc
-CFLAGS      = -Wall -Wextra -O2 -std=c11
+LLAMA_LIB = $(LLAMA_BUILD)/src/libllama.a
 
 # ---------------------------------------------------------------------------
 .PHONY: all run clean distclean
 
 all: $(TARGET)
 
-# --- Clonage de llama.cpp si le répertoire est absent ----------------------
+# --- Clone ---
 $(LLAMA_DIR):
 	@echo "==> Clonage de llama.cpp..."
 	git clone --depth 1 https://github.com/ggml-org/llama.cpp $(LLAMA_DIR)
 
-# --- Construction de la bibliothèque llama.cpp (une seule fois) ------------
+# --- Build llama.cpp ---
 $(LLAMA_LIB): $(LLAMA_DIR)
-	@echo "==> Build de llama.cpp (CPU uniquement)..."
+	@echo "==> Build de llama.cpp..."
 	cmake -S $(LLAMA_DIR) -B $(LLAMA_BUILD) \
 	      -G "$(CMAKE_GEN)" \
 	      -DCMAKE_BUILD_TYPE=Release \
@@ -66,23 +53,24 @@ $(LLAMA_LIB): $(LLAMA_DIR)
 	      -DLLAMA_BUILD_TESTS=OFF \
 	      -DLLAMA_BUILD_EXAMPLES=OFF \
 	      -DLLAMA_BUILD_SERVER=OFF \
+	      -DLLAMA_BUILD_TOOLS=OFF \
 	      -DGGML_CUDA=OFF \
 	      -DGGML_METAL=OFF
 	cmake --build $(LLAMA_BUILD) --config Release -j$(NPROC)
 
-# --- Compilation du programme de test --------------------------------------
+# --- Build programme ---
 $(TARGET): $(SRC) $(LLAMA_LIB)
 	@echo "==> Compilation de $(TARGET)..."
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(TARGET) $(SRC) $(LDFLAGS)
-	@echo "==> Binaire prêt : ./$(TARGET)"
+	$(CC) $(CFLAGS) $(INCLUDES) $(SRC) -o $(TARGET) $(LDFLAGS)
+	@echo "==> OK : ./$(TARGET)"
 
-# --- Lancement rapide -------------------------------------------------------
+# --- Run ---
 run: $(TARGET)
 	./$(TARGET) "Qu'est-ce qu'une vache ?"
 
-# --- Nettoyage --------------------------------------------------------------
+# --- Clean ---
 clean:
-	rm -f $(TARGET) test_model
+	rm -f $(TARGET)
 
 distclean: clean
-	rm -rf $(LLAMA_BUILD)
+	rm -rf $(LLAMA_DIR)
