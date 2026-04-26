@@ -93,49 +93,6 @@ gcc -Wall -Wextra -std=c99 -o reading_cow  reading_cow.c
 > des variables au milieu d'un bloc (ex. `int i` dans un `for`), ce que C89
 > interdit. Sans ce flag, gcc peut refuser certaines déclarations.
 
-**Partie IA :**
-
-```bash
-cd IA
-make vache_folle
-./vache_folle "Qui es-tu ?"
-```
-
----
-
-# Partie IA
-
-## Vue d'ensemble IA
-
-La Partie IA fournit une inférence locale en C via `llama.cpp`.
-Le programme principal est `IA/vache_folle.c` et charge un modèle GGUF pour
-répondre en français à des prompts utilisateur. 
-
-J'aime bien l'IA et je voulais faire un truc avec mais github m'a pas mal restreint. (Arthur Colin)
-
-## Compilation IA
-
-Depuis le dossier `IA/` :
-
-```bash
-make vache_folle
-```
-
-Le `Makefile` clone et compile `llama.cpp` automatiquement si nécessaire.
-
-## Exécution IA
-
-```bash
-./vache_folle "Tu as faim ?"
-```
-
-Le model est Falcon_FineTune.Q6_K.gguf dans le dossier /IA. 
-Ce model est particulierement petit (87Mb) et donc possede une intéligence TRES TRES TRES limitée.
-Pour éviter qu'il ne se mette à écrire du texte illisible dans un dialecte étrange (Espagnol) j'ai été forcé de le finetuné en python sur des exemples de phrases en français style "vache".
-On va dire que cela à fonctionné à 50% voilà pourquoi le titre de vache folle :) 
-
----
-
 # Partie Bash
 
 ## Vue d'ensemble Bash
@@ -915,8 +872,57 @@ Pour résoudre ce probleme il fallait simplement regarder tous les `return` de l
 
 Comme expliqué plus tot, les séquences UTF-8 ne sont pas supportés sur tous les terminaux, ce qui conduisait a un affichage bizarre en console. La solution a ce probleme a déjà été détaillée plus haut.
 
+### IA stupide 
+
+Il s'avère que 87Mb pour un model LLM c'est très petit donc pour que ça fonctionne j'ai été obligé de fine-tuné le model ce qui as été particulierement compliqué (je plaide coupable j'ai fine-tuné le model avec python, en C c'était sucidaire)
+
+### DOOM ?
+
+A l'origine je voulais faire un jeu en 2d vue de dessus ou on affronte des vaches avec notre tamagoshi, et puis je me suis dis que la 3d c'est stylé, et puis que ça ressemblais beaucoup à DOOM et la je suis partit un peu loin. J'espere que vous allez passer un bon moment !  
 
 
+---
+
+**Partie IA :**
+
+```bash
+cd IA
+make vache_folle
+./vache_folle "Qui es-tu ?"
+```
+
+---
+
+# Partie IA
+
+## Vue d'ensemble IA
+
+La Partie IA fournit une inférence locale en C via `llama.cpp`.
+Le programme principal est `IA/vache_folle.c` et charge un modèle GGUF pour
+répondre en français à des prompts utilisateur. 
+
+J'aime bien l'IA et je voulais faire un truc avec mais github m'a pas mal restreint. (Arthur Colin)
+
+## Compilation IA
+
+Depuis le dossier `IA/` :
+
+```bash
+make vache_folle
+```
+
+Le `Makefile` clone et compile `llama.cpp` automatiquement si nécessaire.
+
+## Exécution IA
+
+```bash
+./vache_folle "Tu as faim ?"
+```
+
+Le model est Falcon_FineTune.Q6_K.gguf dans le dossier /IA. 
+Ce model est particulierement petit (87Mb) et donc possede une intéligence TRES TRES TRES limitée.
+Pour éviter qu'il ne se mette à écrire du texte illisible dans un dialecte étrange (Espagnol) j'ai été forcé de le finetuné en python sur des exemples de phrases en français style "vache".
+On va dire que cela à fonctionné à 50% voilà pourquoi le titre de vache folle :) 
 
 ---
 
